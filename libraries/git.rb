@@ -27,6 +27,7 @@ module KN
 		ssh_key = options[:ssh_key]
         template "#{options[:home]}/.ssh/id_dsa" do
           source 'ssh_key.erb'
+		  cookbook 'go-chef'
           mode '0600'
           owner options[:user]
           group options[:group]
