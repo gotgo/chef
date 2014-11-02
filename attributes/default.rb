@@ -7,7 +7,7 @@
 # scm
 #
 
-include_attribute 'util::logrotate'
+include_attribute 'go-chef::logrotate'
 
 
 default_shell = '/bin/bash'
