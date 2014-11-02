@@ -1,8 +1,7 @@
 define :kn_go_build do
-	#application = params[:app]
 	deploy = params[:deploy_data]
 
-	go_main_dir = deploy[:go_main_dir] # "trynk"
+	go_main_dir = deploy[:go_main_dir] 
 	deploy_to = deploy[:deploy_to]
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
 	releases_dir = "#{deploy_to}/releases"
@@ -32,6 +31,12 @@ define :kn_go_build do
 	end
 
 	ensure_scm_package_installed('git')
+
+	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
+		block do
+		ENV['HOME'] = "#{deploy[:home]}"
+		end
+	end
 
     prepare_git_checkouts(
       :user => deploy[:user],
@@ -105,6 +110,11 @@ define :kn_go_build do
 		end
 	end
 
-	
+
+	ruby_block "change HOME back to /root after source checkout" do
+		block do
+		ENV['HOME'] = "/root"
+		end
+	end	
 
 end

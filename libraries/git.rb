@@ -17,7 +17,7 @@ module KN
           owner options[:user]
           group options[:group]
           action :touch
-          mode '0600'
+          mode '0744'
         end
 
         execute "echo 'StrictHostKeyChecking no' > #{options[:home]}/.ssh/config" do
@@ -30,7 +30,6 @@ module KN
           mode '0600'
           owner options[:user]
           group options[:group]
-          cookbook "util"
           variables({ :ssh_key => ssh_key })
 		  not_if do
             ssh_key.nil? || ssh_key.empty?
