@@ -31,9 +31,6 @@ module KN
           owner options[:user]
           group options[:group]
           variables({ :ssh_key => ssh_key })
-		  not_if do
-            ssh_key.nil? || ssh_key.empty?
-          end
         end
 
       end
