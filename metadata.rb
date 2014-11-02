@@ -1,8 +1,8 @@
-name             'util'
+name             'go-chef'
 maintainer       'Krave-n, Inc.'
 maintainer_email 'dev-ops@krave-n.com'
-license          'Copyright 2014, Krave-n, Inc'
-description      'utiltiies for working with other cookbooks'
+license          'MIT License: Krave-n, Inc'
+description      'utiltiies for installing go apps with chef'
 version          '0.1'
 
 

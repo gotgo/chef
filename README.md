@@ -1,4 +1,4 @@
 chef
 ====
 
-Recipe for deploying Go apps on Chef, particularly AWS OpsWorks
+Recipes for deploying Go apps on Chef, particularly on AWS OpsWorks
