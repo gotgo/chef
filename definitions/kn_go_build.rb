@@ -79,8 +79,13 @@ define :kn_go_build do
 		group deploy[:group]
 	end
 
+	main_dir = checkout_to
+	if !go_main_dir.nil? && !go_main_dir.blank?
+		main_dir = "#{checkout_to}/#{go_main_dir}"
+	end
+
 	execute '/usr/local/go/bin/go get; /usr/local/go/bin/go install;' do 
-		cwd "#{checkout_to}/#{go_main_dir}"
+		cwd main_dir
 		environment ({
 			'GOPATH' => "#{go_path}",
 			'GOBIN' => "#{go_path}/bin"

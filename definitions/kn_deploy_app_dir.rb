@@ -3,7 +3,7 @@ define :kn_deploy_app_dir do
   directory "#{params[:path]}/shared" do
     group params[:group]
     owner params[:user]
-    mode 0770
+    mode 0774
     action :create
     recursive true
   end
@@ -13,7 +13,7 @@ define :kn_deploy_app_dir do
     directory "#{params[:path]}/shared/#{dir_name}" do
       group params[:group]
       owner params[:user]
-      mode 0770
+      mode 0774
       action :create
       recursive true
     end
