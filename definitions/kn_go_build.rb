@@ -1,5 +1,6 @@
 define :kn_go_build do
 	deploy = params[:deploy_data]
+	deploy_key = params[:deploy_key]
 
 	go_main_dir = deploy[:go_main_dir] 
 	deploy_to = deploy[:deploy_to]
@@ -42,7 +43,7 @@ define :kn_go_build do
       :user => deploy[:user],
       :group => deploy[:group],
       :home => deploy[:home],
-      :ssh_key => deploy[:scm][:ssh_key]
+      :ssh_key => deploy_key
     ) 
 
 	parts = go_repository.split("/")
