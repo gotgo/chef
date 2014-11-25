@@ -33,6 +33,10 @@ define :kn_go_build do
 
 	ensure_scm_package_installed('git')
 
+	#so we can checkout private repos
+	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
+	end
+
 	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
 		block do
 		ENV['HOME'] = "#{deploy[:home]}"
