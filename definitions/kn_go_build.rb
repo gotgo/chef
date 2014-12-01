@@ -97,7 +97,16 @@ define :kn_go_build do
 		main_dir = "#{checkout_to}/#{go_main_dir}"
 	end
 
-	execute '/usr/local/go/bin/go get -u all; /usr/local/go/bin/go install;' do 
+	execute '/usr/local/go/bin/go get -u all' do 
+		environment ({
+			'GOPATH' => "#{go_path}",
+			'GOBIN' => "#{go_path}/bin"
+		})
+		user deploy[:user]
+		group deploy[:group]
+	end
+
+	execute '/usr/local/go/bin/go install' do 
 		cwd main_dir
 		environment ({
 			'GOPATH' => "#{go_path}",
