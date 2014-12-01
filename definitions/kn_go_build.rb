@@ -104,6 +104,7 @@ define :kn_go_build do
 		})
 		user deploy[:user]
 		group deploy[:group]
+		ignore_failure true
 	end
 
 	execute '/usr/local/go/bin/go install' do 
