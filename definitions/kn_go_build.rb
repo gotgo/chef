@@ -102,8 +102,8 @@ define :kn_go_build do
 			'GOPATH' => "#{go_path}",
 			'GOBIN' => "#{go_path}/bin"
 		})
-		user deploy[:user]
-		group deploy[:group]
+		user 'root'
+		group 'root'
 		ignore_failure true
 	end
 
