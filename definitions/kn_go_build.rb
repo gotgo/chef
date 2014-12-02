@@ -98,6 +98,7 @@ define :kn_go_build do
 	end
 
 	execute '/usr/local/go/bin/go get -u all' do 
+		cwd main_dir
 		environment ({
 			'GOPATH' => "#{go_path}",
 			'GOBIN' => "#{go_path}/bin"
