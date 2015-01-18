@@ -1,15 +1,35 @@
-define :kn_go_build do
-	deploy = params[:deploy_data]
+define :go_service_build do
+	deploy = params[:service_settings]
 	deploy_key = params[:deploy_key]
+
+	if deploy_key.to_s.empty?
+		#for testing?
+		deploy_key =  IO.read("/opt/deploy_keys/deploy_#{app_name}")
+	end
 
 	go_main_dir = deploy[:go_main_dir] 
 	deploy_to = deploy[:deploy_to]
+	if deploy_to.to_s.empty?
+		deploy_to = '/opt'
+	end
+
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
 	releases_dir = "#{deploy_to}/releases"
 	go_path = "#{releases_dir}/#{new_release_dir}"
+	repo = deploy[:repository]
 
 	go_repository = deploy[:go_repository]
-	branch_name = deploy[:scm][:revision]
+	if go_respository.to_s.empty? 
+		#private syntax git@github.com:root/repot.git
+		if match = repo.gsub(/[-a-zA-Z0-9]+@([a-zA-Z0-9-]+[.][a-zA-Z]+):([-a-zA-Z0-9\/]+)/, '\1/\2')
+			go_repository = match
+		# public syntax https://github.com/root/repot
+		elsif match = repo.gsub(/https:\/\/([-a-zA-Z0-9]+[.][a-zA-Z]+\/[-a-zA-Z0-9\/]+)/, '\1')
+			go_repository = match
+		end
+	end
+
+	branch_name = deploy[:branch]
 
 	#create go root
 	directory "#{go_path}" do
@@ -85,7 +105,7 @@ define :kn_go_build do
 	end
 	
 	git "#{checkout_to}"  do
-		repository "#{deploy[:scm][:repository]}"	
+		repository "#{deploy[:repository]}"	
 		revision branch_name
 		action :sync
 		user deploy[:user]
@@ -93,7 +113,7 @@ define :kn_go_build do
 	end
 
 	main_dir = checkout_to
-	if !go_main_dir.nil? && !go_main_dir.blank?
+	if !go_main_dir.to_s.empty?
 		main_dir = "#{checkout_to}/#{go_main_dir}"
 	end
 
@@ -120,7 +140,6 @@ define :kn_go_build do
 
 	#be good to also run ginkgo tests
 	#coverage also
-	#
 	
 	link "#{deploy_to}/current" do
 		to "#{go_path}/"
@@ -128,17 +147,9 @@ define :kn_go_build do
 		group deploy[:group]
 	end
 
-	#cleanup
-	sorted_dirs = ::Dir["#{releases_dir}/*"].sort.reverse
-	max_index = sorted_dirs.length - 1
-	for i in 5..max_index
-		current = sorted_dirs[i]
-		directory "#{current}" do
-			action :delete
-			recursive true
-		end
+	go_service_clean_old do
+		releases_dir releases_dir
 	end
-
 
 	ruby_block "change HOME back to /root after source checkout" do
 		block do
