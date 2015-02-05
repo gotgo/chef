@@ -1,7 +1,7 @@
 
 define :go_service_deploy do
-	settings params[:settings]
-	key params[:key]
+	settings	= params[:settings]
+	key			= params[:key]
 
 	service_name = settings[:service_name]
 	user = settings[:user]
