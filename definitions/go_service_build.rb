@@ -55,15 +55,15 @@ define :go_service_build do
 
 	#so we can checkout private repos
 	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
-		user 'root'
-		group 'root'
+		user deploy[:user]
+		group deploy[:group]
 	end
 
-	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
-		block do
-		ENV['HOME'] = "#{deploy[:home]}"
-		end
-	end
+#	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
+#		block do
+#		ENV['HOME'] = "#{deploy[:home]}"
+#		end
+#	end
 	
 	#so we can checkout private repos
 	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
@@ -123,8 +123,8 @@ define :go_service_build do
 			'GOPATH' => "#{go_path}",
 			'GOBIN' => "#{go_path}/bin"
 		})
-		user 'root'
-		group 'root'
+		user  deploy[:user]
+		group deploy[:group]
 		ignore_failure true
 	end
 
@@ -151,10 +151,10 @@ define :go_service_build do
 		releases_dir releases_dir
 	end
 
-	ruby_block "change HOME back to /root after source checkout" do
-		block do
-		ENV['HOME'] = "/root"
-		end
-	end	
+#	ruby_block "change HOME back to /root after source checkout" do
+#		block do
+#		ENV['HOME'] = "/root"
+#		end
+#	end	
 
 end
