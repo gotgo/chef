@@ -11,7 +11,7 @@ define :go_service_user do
 		comment "created by chef user"
 		gid group
 		home home
-		supports :manage_home => true
+	#	supports :manage_home => true
 		shell shell
 	#	not_if do
 	#		existing_usernames = []
