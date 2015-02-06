@@ -53,20 +53,25 @@ define :go_service_build do
 
 	ensure_scm_package_installed('git')
 
+	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
+		user deploy[:user]
+		group deploy[:group]
+	end
+
 	#home = deploy[:home]
 	home = "/root"
 
-	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
-		ENV['HOME'] = home
-	end
+#	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
+#		ENV['HOME'] = home
+#	end
 	
 	#running as root here
 	#so we can checkout private repos
-	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
-		user 'root'
-		group 'root'
-		environment( { "HOME" => home })
-	end
+#	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
+#		user 'root'
+#		group 'root'
+#		environment( { "HOME" => home })
+#	end
 
 #	#so we can checkout private repos
 #	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
