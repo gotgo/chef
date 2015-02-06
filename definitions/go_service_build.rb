@@ -64,9 +64,9 @@ define :go_service_build do
 	#running as root here
 	#so we can checkout private repos
 	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
-		user deploy[:user]
-		group deploy[:group]
-		environment( { "HOME" => home })
+		user 'root'
+		group 'root'
+		#environment( { "HOME" => home })
 	end
 
 #	#so we can checkout private repos
