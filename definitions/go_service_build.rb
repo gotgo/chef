@@ -62,7 +62,9 @@ define :go_service_build do
 	home = "/root"
 
 #	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
+#		block do
 #		ENV['HOME'] = home
+#		end	
 #	end
 	
 	#running as root here
