@@ -112,7 +112,8 @@ define :go_service_build do
 		repository "#{deploy[:repository]}"	
 		revision branch_name
 		action :sync
-		environment "HOME" => deploy[:home] 
+		#envirnoment not supported by opsworks
+		#environment "HOME" => deploy[:home] 
 		user deploy[:user]
 		group deploy[:group]
 	end
