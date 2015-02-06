@@ -13,10 +13,10 @@ define :go_service_user do
 		home home
 		supports :manage_home => true
 		shell shell
-		not_if do
-			existing_usernames = []
-			Etc.passwd {|currentuser| existing_usernames << currentuser['name']}
-			existing_usernames.include?(user)
-		end
+	#	not_if do
+	#		existing_usernames = []
+	#		Etc.passwd {|currentuser| existing_usernames << currentuser['name']}
+	#		existing_usernames.include?(user)
+	#	end
 	end
 end

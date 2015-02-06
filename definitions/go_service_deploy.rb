@@ -13,7 +13,7 @@ define :go_service_deploy do
 	user = service_name unless !user.to_s.empty?
 	group = user unless !group.to_s.empty?
 	deploy_to = '/opt' unless !deploy_to.to_s.empty?
-	home = "/user/#{user}" unless !home.to_s.empty?
+	home = "/home/#{user}" unless !home.to_s.empty?
 
 	go_service_user do
 		user user
