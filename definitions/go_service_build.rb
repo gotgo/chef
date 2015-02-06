@@ -54,8 +54,8 @@ define :go_service_build do
 	ensure_scm_package_installed('git')
 
 	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
-		user deploy[:user]
-		group deploy[:group]
+		user 'root'
+		group 'root'
 	end
 
 	#home = deploy[:home]
