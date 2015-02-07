@@ -24,9 +24,15 @@ module KN
           not_if "grep '^StrictHostKeyChecking no$' #{options[:home]}/.ssh/config"
         end
 
+		# opsworks doesn't support new lines in json, however, vagrant does
+		# thus, this jankyness
 		ssh_key = options[:ssh_key]
+		ssh_template = 'ssh_key.erb'
+		if ssh_key.scan("\n").length > 3
+			ssh_template = 'ssh_key_raw.erb'
+		end
         template "#{options[:home]}/.ssh/id_dsa" do
-          source 'ssh_key.erb'
+          source ssh_template
 		  cookbook 'go-chef'
           mode '0600'
           owner options[:user]
