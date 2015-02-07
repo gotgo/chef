@@ -58,14 +58,13 @@ define :go_service_build do
 
 	ensure_scm_package_installed('git')
 
+	#home = deploy[:home]
 	home = "/home/#{deploy[:user]}"
 	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
 		user deploy[:user]
 		group deploy[:group]
 		environment( { "HOME" => home })
 	end
-
-	#home = deploy[:home]
 
 #	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
 #		block do
@@ -139,7 +138,8 @@ define :go_service_build do
 		cwd main_dir
 		environment ({
 			'GOPATH' => "#{go_path}",
-			'GOBIN' => "#{go_path}/bin"
+			'GOBIN' => "#{go_path}/bin",
+			'HOME' => home
 		})
 		user  deploy[:user]
 		group deploy[:group]
@@ -150,7 +150,8 @@ define :go_service_build do
 		cwd main_dir
 		environment ({
 			'GOPATH' => "#{go_path}",
-			'GOBIN' => "#{go_path}/bin"
+			'GOBIN' => "#{go_path}/bin",
+			'HOME' => home
 		})
 		user deploy[:user]
 		group deploy[:group]
