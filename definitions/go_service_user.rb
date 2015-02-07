@@ -4,6 +4,9 @@ define :go_service_user do
 	shell = params[:shell]
 	home = params[:home]
 
+	home = "/home/#{user}" unless !home.to_s.empty?
+	shell = "/bin/bash" unless !shell.to_s.empty?
+
 	group group
 
 	user user do
@@ -11,12 +14,8 @@ define :go_service_user do
 		comment "created by chef user"
 		gid group
 		home home
-	#	supports :manage_home => true
+		supports :manage_home => true
+		system true
 		shell shell
-	#	not_if do
-	#		existing_usernames = []
-	#		Etc.passwd {|currentuser| existing_usernames << currentuser['name']}
-	#		existing_usernames.include?(user)
-	#	end
 	end
 end
