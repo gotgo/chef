@@ -19,7 +19,7 @@ define :go_service_build do
 	repo = deploy[:repository]
 
 	go_repository = deploy[:go_repository]
-	if !go_repository.to_s.empty? 
+	if go_repository.to_s.empty? 
 		#private syntax git@github.com:root/repot.git
 		if match = repo.gsub(/[-a-zA-Z0-9]+@([a-zA-Z0-9-]+[.][a-zA-Z]+):([-a-zA-Z0-9\/]+)/, '\1/\2')
 			go_repository = match
@@ -29,6 +29,11 @@ define :go_service_build do
 		end
 	end
 
+	# if .git exists, remove it
+	ext = File.extname(go_repository)
+	if ext.length > 0 
+		go_repository = go_repository.slice 0..(-1 * (ext.length + 1))
+	end
 	branch_name = deploy[:branch]
 
 	#create go root
