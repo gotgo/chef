@@ -19,7 +19,7 @@ define :go_service_build do
 	repo = deploy[:repository]
 
 	go_repository = deploy[:go_repository]
-	if go_repository.to_s.empty? 
+	if !go_repository.to_s.empty? 
 		#private syntax git@github.com:root/repot.git
 		if match = repo.gsub(/[-a-zA-Z0-9]+@([a-zA-Z0-9-]+[.][a-zA-Z]+):([-a-zA-Z0-9\/]+)/, '\1/\2')
 			go_repository = match
