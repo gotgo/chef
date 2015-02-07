@@ -9,12 +9,13 @@ define :go_service_build do
 
 	go_main_dir = deploy[:go_main_dir] 
 	deploy_to = deploy[:deploy_to]
-	if deploy_to.to_s.empty?
-		deploy_to = '/opt'
-	end
+	deploy_to = '/opt' unless !deploy_to.to_s.empty?
+	
+	deploy_root = "#{deploy_to}/#{deploy[:service_name]}"
+
 
 	new_release_dir = Time.now.strftime("%Y-%m-%dT%H%M-%S")
-	releases_dir = "#{deploy_to}/releases"
+	releases_dir = "#{deploy_root}/releases"
 	go_path = "#{releases_dir}/#{new_release_dir}"
 	repo = deploy[:repository]
 
@@ -160,7 +161,7 @@ define :go_service_build do
 	#be good to also run ginkgo tests
 	#coverage also
 	
-	link "#{deploy_to}/current" do
+	link "#{deploy_root}/current" do
 		to "#{go_path}/"
 		owner deploy[:user]
 		group deploy[:group]
