@@ -26,6 +26,7 @@ define :go_service_deploy do
 		user user
 		group group
 		path deploy_to
+		service_name service_name
 	end
 
 	go_service_build do
