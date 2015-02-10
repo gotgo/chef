@@ -138,6 +138,7 @@ define :go_service_build do
 	execute '/usr/local/go/bin/go get' do 
 		cwd main_dir
 		environment ({
+			'GOROOT' => '/usr/local/go',
 			'GOPATH' => "#{go_path}",
 			'GOBIN' => "#{go_path}/bin",
 			'HOME' => home
@@ -147,15 +148,30 @@ define :go_service_build do
 		ignore_failure true
 	end
 
-	execute '/usr/local/go/bin/go install' do 
-		cwd main_dir
-		environment ({
-			'GOPATH' => "#{go_path}",
-			'GOBIN' => "#{go_path}/bin",
-			'HOME' => home
-		})
-		user deploy[:user]
-		group deploy[:group]
+	if ::File.exists?("#{main_dir}/Makefile")
+		execute 'make install' do 
+			cwd main_dir
+			environment ({
+				'GOROOT' => '/usr/local/go',
+				'GOPATH' => "#{go_path}",
+				'GOBIN' => "#{go_path}/bin",
+				'HOME' => home
+			})
+			user deploy[:user]
+			group deploy[:group]
+		end
+	else
+		execute '/usr/local/go/bin/go install' do 
+			cwd main_dir
+			environment ({
+				'GOROOT' => '/usr/local/go',
+				'GOPATH' => "#{go_path}",
+				'GOBIN' => "#{go_path}/bin",
+				'HOME' => home
+			})
+			user deploy[:user]
+			group deploy[:group]
+		end
 	end
 
 	#be good to also run ginkgo tests
