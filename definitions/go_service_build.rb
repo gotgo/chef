@@ -62,11 +62,12 @@ define :go_service_build do
 	#home = deploy[:home]
 	home = "/home/#{deploy[:user]}"
 	execute 'git config --global url."git@github.com:".insteadOf "https://github.com/"' do
+		not_if { deploy_key.to_s.empty? }
+
 		user deploy[:user]
 		group deploy[:group]
 		environment( { "HOME" => home })
 	end
-
 #	ruby_block "change HOME to #{deploy[:home]} for source checkout" do
 #		block do
 #		ENV['HOME'] = home
