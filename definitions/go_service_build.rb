@@ -161,7 +161,7 @@ define :go_service_build do
 			group deploy[:group]
 		end
 	else
-		execute '/usr/local/go/bin/go install' do 
+		execute '/usr/local/go/bin/go install -race' do 
 			cwd main_dir
 			environment ({
 				'GOROOT' => '/usr/local/go',

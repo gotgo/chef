@@ -16,6 +16,7 @@ define :go_service_deploy do
 	home = "/home/#{user}" unless !home.to_s.empty?
 
 	go_service_user do
+		not_if { user == 'root' }
 		user user
 		group group
 		shell shell

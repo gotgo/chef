@@ -7,10 +7,12 @@ define :go_service_user do
 	home = "/home/#{user}" unless !home.to_s.empty?
 	shell = "/bin/bash" unless !shell.to_s.empty?
 
-	group group
+	group group do
+		not_if { group == 'root' }
+	end
 
 	user user do
-		action :create
+		not_if { user == 'root' }
 		comment "created by chef user"
 		gid group
 		home home
